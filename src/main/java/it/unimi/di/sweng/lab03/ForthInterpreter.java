@@ -6,14 +6,17 @@ import java.util.Scanner;
 
 public class ForthInterpreter implements Interpreter {
 
-    private final Deque<Integer> internalStack = new ArrayDeque<>();
+    private final Deque<Integer> stack = new ArrayDeque<>();
 
     @Override
     public void input( String program) {
         try(Scanner sc = new Scanner(program)) {
             while (sc.hasNext()) {
                 String token = sc.next();
-                internalStack.push(Integer.valueOf(token));
+                if(token.matches("-?[0-9]+"))
+                    stack.push(Integer.valueOf(token));
+                else if ("+".equals(token))
+                    stack.push(stack.pop() + stack.pop());
             }
         }
     }
@@ -21,7 +24,7 @@ public class ForthInterpreter implements Interpreter {
     @Override
     public String toString(){
             StringBuilder sb = new StringBuilder();
-            for (Integer operand : internalStack){
+            for (Integer operand : stack){
                 sb.insert(0, operand + " ");
             }
             sb.append("<- Top");
