@@ -29,7 +29,9 @@ public class ForthInterpreterTest {
 
     @ParameterizedTest
     @CsvSource({"1 , 1 <- Top",
-            "1 2, 1 2 <- Top"})
+            "1 2, 1 2 <- Top",
+            "'1\n2',1 2 <- Top",
+            "'1   2 \n3',1 2 3 <- Top"})
     void testNumericInput(String program, String output){
         interpreter.input(program);
         assertThat(interpreter.toString()).isEqualTo(output);
