@@ -86,4 +86,11 @@ public class ForthInterpreterTest {
         interpreter.input("1 2 *");
         assertThat(interpreter.toString()).isEqualTo("2 <- Top");
     }
+
+    @Test
+    void testMacro(){
+        interpreter.input(": raddoppia 2 * ; 5 raddoppia dup raddoppia");
+        assertThat(interpreter.toString()).isEqualTo("10 20 <- Top");
+    }
+
 }

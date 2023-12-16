@@ -21,26 +21,35 @@ public class ForthInterpreter implements Interpreter {
     public void input(String program) {
         stack.clear();
         if(program == null) return;
+        parseAndExecute(program);
+    }
+
+    private void parseAndExecute(String program) {
         try(Scanner sc = new Scanner(program)) {
             while (sc.hasNext()) {
                 String token = sc.next();
-                parseAndExecute(token);
+                if (token.matches("-?[0-9]+"))
+                    stack.push(Integer.valueOf(token));
+                else if (operators.containsKey(token)) {
+                    try {
+                        operators.get(token).op();
+                    } catch (NoSuchElementException e) {
+                        throw new IllegalArgumentException("Stack Underflow");
+                    }
+                } else if(":".equals(token)){
+                    String nome = sc.next();
+                    String definizione = getDefinition(sc);
+                    operators.put(nome, () -> parseAndExecute(definizione));
+                } else {
+                        throw new IllegalArgumentException("Token error '" + token + "'");
+                }
             }
         }
     }
 
-    private void parseAndExecute(String token) {
-        if (token.matches("-?[0-9]+"))
-            stack.push(Integer.valueOf(token));
-        else if (operators.containsKey(token)) {
-            try {
-                operators.get(token).op();
-            } catch (NoSuchElementException e) {
-                throw new IllegalArgumentException("Stack Underflow");
-            }
-        } else {
-            throw new IllegalArgumentException("Token error '" + token + "'");
-        }
+    private String getDefinition(Scanner sc) {
+        String def = sc.findInLine(".*?;");
+        return def.substring(0, def.length()-1);
     }
 
     @Override
