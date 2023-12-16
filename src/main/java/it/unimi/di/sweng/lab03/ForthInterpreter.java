@@ -4,8 +4,8 @@ import java.util.*;
 
 public class ForthInterpreter implements Interpreter {
 
-    private final Deque<Integer> stack = new ArrayDeque<>();
-    private final Map<String, Operation> operators = new HashMap<>();
+    final Deque<Integer> stack = new ArrayDeque<>();
+    final Map<String, Operation> operators = new HashMap<>();
 
     interface Operation{
         void op();

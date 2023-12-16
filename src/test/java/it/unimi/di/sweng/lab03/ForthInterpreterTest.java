@@ -56,4 +56,14 @@ public class ForthInterpreterTest {
                 .hasMessage("Token error '" + error + "'");
     }
 
+    // definisco nuova classe capace a gestire anche il 'meno' e 'diviso'
+    // mentre ForthInterpreter rimane a gestire solo il 'più' e il 'per'
+    @ParameterizedTest
+    @CsvSource({"1 2 -, -1 <- Top",
+            "1 2 /, 0 <- Top"})
+    void testOtherOperator(String program, String output){
+        Interpreter interpreter = new ExtendedForthInterpreter();
+        interpreter.input(program);
+        assertThat(interpreter.toString()).isEqualTo(output);
+    }
 }
