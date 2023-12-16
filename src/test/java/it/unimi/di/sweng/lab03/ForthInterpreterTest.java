@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -66,4 +68,13 @@ public class ForthInterpreterTest {
         interpreter.input(program);
         assertThat(interpreter.toString()).isEqualTo(output);
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"1 +"})
+    void testStackUnderflow(String program){
+        assertThatThrownBy(() -> interpreter.input(program))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Stack Underflow");
+    }
+
 }

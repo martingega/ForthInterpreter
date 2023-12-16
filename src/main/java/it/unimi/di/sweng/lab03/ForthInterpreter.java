@@ -30,7 +30,11 @@ public class ForthInterpreter implements Interpreter {
         if (token.matches("-?[0-9]+"))
             stack.push(Integer.valueOf(token));
         else if (operators.containsKey(token)) {
-            operators.get(token).op();
+            try {
+                operators.get(token).op();
+            } catch (NoSuchElementException e) {
+                throw new IllegalArgumentException("Stack Underflow");
+            }
         } else {
             throw new IllegalArgumentException("Token error '" + token + "'");
         }
