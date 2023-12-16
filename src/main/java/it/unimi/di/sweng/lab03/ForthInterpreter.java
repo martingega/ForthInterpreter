@@ -23,6 +23,8 @@ public class ForthInterpreter implements Interpreter {
             stack.push(Integer.valueOf(token));
         else if ("+".equals(token)) {
             stack.push(stack.pop() + stack.pop());
+        } else if ("*".equals(token)) {
+            stack.push(stack.pop() * stack.pop());
         } else {
             throw new IllegalArgumentException("Token error '" + token + "'");
         }
