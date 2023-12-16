@@ -1,12 +1,20 @@
 package it.unimi.di.sweng.lab03;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Scanner;
+import java.util.*;
 
 public class ForthInterpreter implements Interpreter {
 
     private final Deque<Integer> stack = new ArrayDeque<>();
+    private final Map<String, Operation> operators = new HashMap<>();
+
+    interface Operation{
+        void op();
+    }
+
+    public ForthInterpreter(){
+        operators.put("+", () -> stack.push(stack.pop() + stack.pop()));
+        operators.put("*", () -> stack.push(stack.pop() * stack.pop()));
+    }
 
     @Override
     public void input( String program) {
@@ -21,10 +29,8 @@ public class ForthInterpreter implements Interpreter {
     private void parseAndExecute(String token) {
         if (token.matches("-?[0-9]+"))
             stack.push(Integer.valueOf(token));
-        else if ("+".equals(token)) {
-            stack.push(stack.pop() + stack.pop());
-        } else if ("*".equals(token)) {
-            stack.push(stack.pop() * stack.pop());
+        else if (operators.containsKey(token)) {
+            operators.get(token).op();
         } else {
             throw new IllegalArgumentException("Token error '" + token + "'");
         }
