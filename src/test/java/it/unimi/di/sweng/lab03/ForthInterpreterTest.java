@@ -1,6 +1,7 @@
 package it.unimi.di.sweng.lab03;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -79,4 +80,10 @@ public class ForthInterpreterTest {
                 .hasMessage("Stack Underflow");
     }
 
+    @Test
+    void testCleanOfInput(){
+        interpreter.input("1 2");
+        interpreter.input("1 2 *");
+        assertThat(interpreter.toString()).isEqualTo("2 <- Top");
+    }
 }

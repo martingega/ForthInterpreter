@@ -19,6 +19,7 @@ public class ForthInterpreter implements Interpreter {
 
     @Override
     public void input(String program) {
+        stack.clear();
         if(program == null) return;
         try(Scanner sc = new Scanner(program)) {
             while (sc.hasNext()) {
