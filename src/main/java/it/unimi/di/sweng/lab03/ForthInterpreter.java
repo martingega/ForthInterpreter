@@ -14,6 +14,7 @@ public class ForthInterpreter implements Interpreter {
     public ForthInterpreter(){
         operators.put("+", () -> stack.push(stack.pop() + stack.pop()));
         operators.put("*", () -> stack.push(stack.pop() * stack.pop()));
+        operators.put("dup", () -> stack.push(stack.peek()));
     }
 
     @Override

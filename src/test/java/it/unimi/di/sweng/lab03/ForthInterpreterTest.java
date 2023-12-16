@@ -62,7 +62,8 @@ public class ForthInterpreterTest {
     // mentre ForthInterpreter rimane a gestire solo il 'più' e il 'per'
     @ParameterizedTest
     @CsvSource({"1 2 -, -1 <- Top",
-            "1 2 /, 0 <- Top"})
+            "1 2 /, 0 <- Top",
+            "1 2 3 dup, 1 2 3 3 <- Top"})
     void testOtherOperator(String program, String output){
         Interpreter interpreter = new ExtendedForthInterpreter();
         interpreter.input(program);
