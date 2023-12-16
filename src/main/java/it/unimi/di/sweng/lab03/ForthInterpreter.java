@@ -19,10 +19,13 @@ public class ForthInterpreter implements Interpreter {
     }
 
     private void parseAndExecute(String token) {
-        if(token.matches("-?[0-9]+"))
+        if (token.matches("-?[0-9]+"))
             stack.push(Integer.valueOf(token));
-        else if ("+".equals(token))
+        else if ("+".equals(token)) {
             stack.push(stack.pop() + stack.pop());
+        } else {
+            throw new IllegalArgumentException("Token error '" + token + "'");
+        }
     }
 
     @Override

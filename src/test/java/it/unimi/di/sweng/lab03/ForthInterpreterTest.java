@@ -7,6 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.fail;
 
 
 @Timeout(2)
@@ -42,6 +44,16 @@ public class ForthInterpreterTest {
     void testOperator(String program, String output){
         interpreter.input(program);
         assertThat(interpreter.toString()).isEqualTo(output);
+    }
+
+    // testare le eccezioni
+    @ParameterizedTest
+    @CsvSource({"1 2+, 2+",
+            "1 2 ++5 +, ++5"})
+    void testInvalidToken(String program, String error){
+        assertThatThrownBy(() -> interpreter.input(program))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Token error '" + error + "'");
     }
 
 }
