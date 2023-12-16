@@ -13,12 +13,16 @@ public class ForthInterpreter implements Interpreter {
         try(Scanner sc = new Scanner(program)) {
             while (sc.hasNext()) {
                 String token = sc.next();
-                if(token.matches("-?[0-9]+"))
-                    stack.push(Integer.valueOf(token));
-                else if ("+".equals(token))
-                    stack.push(stack.pop() + stack.pop());
+                parseAndExecute(token);
             }
         }
+    }
+
+    private void parseAndExecute(String token) {
+        if(token.matches("-?[0-9]+"))
+            stack.push(Integer.valueOf(token));
+        else if ("+".equals(token))
+            stack.push(stack.pop() + stack.pop());
     }
 
     @Override
