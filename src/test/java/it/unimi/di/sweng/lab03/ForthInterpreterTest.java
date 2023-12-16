@@ -1,12 +1,12 @@
 package it.unimi.di.sweng.lab03;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -14,18 +14,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Timeout(2)
 public class ForthInterpreterTest {
 
-
     private Interpreter interpreter;
 
     @BeforeEach
     public void setUp() throws Exception {
         interpreter = new ForthInterpreter();
-    }
-
-    @Test
-    void testEmptyInput(){
-        interpreter.input("");
-        assertThat(interpreter.toString()).isEqualTo("<- Top");
     }
 
     @ParameterizedTest
@@ -36,6 +29,14 @@ public class ForthInterpreterTest {
     void testNumericInput(String program, String output){
         interpreter.input(program);
         assertThat(interpreter.toString()).isEqualTo(output);
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    void testEmptyOrNull(String program){
+        interpreter.input(program);
+        assertThat(interpreter.toString()).isEqualTo("<- Top");
     }
 
     @ParameterizedTest
